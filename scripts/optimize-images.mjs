@@ -18,6 +18,19 @@ const swatches = {
   brass: [1658, 780, 145, 145],
 }
 
+// Free-standing items on the transparent moodboard layer (left, top, width, height).
+// The brass sphere sits on the terrazzo, so it's cut out with a circular mask.
+const pieces = {
+  linen: { box: [88, 114, 272, 341] },
+  terrazzo: { box: [368, 135, 245, 366] },
+  sphere: { box: [660, 193, 152, 152], mask: 'circle' },
+  'green-tile': { box: [858, 184, 314, 318] },
+  fabric: { box: [1345, 266, 283, 254] },
+  boucle: { box: [958, 553, 308, 304] },
+  smear: { box: [1642, 181, 188, 292] },
+  brass: { box: [1651, 774, 158, 158] },
+}
+
 const jobs = [
   ...Object.entries(swatches).map(([name, [left, top, width, height]]) => ({
     from: 'People+Spaces_Moodboard-background.png',
@@ -43,6 +56,16 @@ const jobs = [
   { from: 'Images (various)/Characters_2.png', to: 'people-row.webp', extract: { left: 0, top: 16, width: 1536, height: 472 }, width: 1536, quality: 85 },
   // Line-art makers (black on white, blended with multiply)
   { from: 'Images (various)/Characters_4-black.png', to: 'makers-ink.webp', width: 1536, quality: 85 },
+
+  // Individual cut-out pieces (with transparency) for the portrait moodboard on phones
+  ...Object.entries(pieces).map(([name, { box: [left, top, width, height], mask }]) => ({
+    from: 'People+Spaces_Moodboard-transparent.png',
+    to: `piece-${name}.webp`,
+    extract: { left, top, width, height },
+    mask,
+    width,
+    quality: 88,
+  })),
 ]
 
 await mkdir(OUT, { recursive: true })
@@ -64,6 +87,11 @@ for (const job of jobs) {
   const output = path.join(OUT, job.to)
   let image = sharp(input)
   if (job.extract) image = image.extract(job.extract)
+  if (job.mask === 'circle') {
+    const { width: w, height: h } = job.extract
+    const circle = Buffer.from(`<svg width="${w}" height="${h}"><circle cx="${w / 2}" cy="${h / 2}" r="${w / 2 - 4}"/></svg>`)
+    image = sharp(await image.png().toBuffer()).composite([{ input: circle, blend: 'dest-in' }])
+  }
   const info = await image
     .resize({ width: job.width, withoutEnlargement: true })
     .webp({ quality: job.quality, alphaQuality: 90, effort: 6 })

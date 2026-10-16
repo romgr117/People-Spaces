@@ -26,7 +26,8 @@ npm run images    # regenerate optimised images from /Resources
 | What | Where |
 | --- | --- |
 | Site details, nav, moodboard hotspot positions, material swatches | `src/content/site.ts` |
-| Moodboard sizing (sideways scroll on phones, full board on wide screens) | `.board*` rules in `src/index.css` |
+| Phone moodboard layout (position, size and rotation of each cut-out) | `portraitPieces` in `src/content/site.ts` |
+| Which board is shown: full 16:9 on wide screens, portrait flat-lay on phones/tablets | `src/pages/Home.tsx` |
 | Pages | `src/pages/` |
 | Shared components (header, menu, footer, hotspots…) | `src/components/` |
 

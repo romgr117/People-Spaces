@@ -1,7 +1,9 @@
 @import 'tailwindcss';
 
-/* "board" = screens wide enough to show the whole moodboard at once */
+/* "board" = screens wide enough to show the whole moodboard at once. Keep in sync with BOARD_QUERY in Home.tsx */
 @custom-variant board (@media (min-width: 768px) and (min-aspect-ratio: 4/3));
+/* "short" = very little height, e.g. a phone held sideways */
+@custom-variant short (@media (max-height: 540px));
 
 @theme {
   --font-display: 'Abel', ui-sans-serif, system-ui, sans-serif;
@@ -38,10 +40,6 @@
   @keyframes fade-out {
     to { opacity: 0; }
   }
-  @keyframes nudge {
-    0%, 100% { transform: translateX(0); }
-    50% { transform: translateX(6px); }
-  }
   @keyframes pulse-ring {
     0% { transform: scale(1); opacity: 0.5; }
     70%, 100% { transform: scale(1.9); opacity: 0; }
@@ -72,46 +70,6 @@
   /* Soft, realistic shadows for the flat-lay items */
   .flat-lay-shadow {
     filter: drop-shadow(0 1px 1px rgb(70 50 30 / 0.22)) drop-shadow(0 10px 16px rgb(70 50 30 / 0.18));
-  }
-
-  /*
-   * Moodboard sizing.
-   * Phones/portrait: the board is taller than the screen allows, so it scrolls sideways
-   *   (with the empty paper margins at the top and bottom cropped away).
-   * Wide screens: the whole board fits, centred.
-   */
-  .board-viewport {
-    --board-h: min(78svh, 680px);
-    height: calc(var(--board-h) * 0.8);
-    overflow-x: auto;
-    overflow-y: hidden;
-    overscroll-behavior-x: contain;
-    scrollbar-width: none;
-  }
-  .board-viewport::-webkit-scrollbar {
-    display: none;
-  }
-  .board {
-    position: relative;
-    aspect-ratio: 16 / 9;
-    height: var(--board-h);
-    margin-top: calc(var(--board-h) * -0.1);
-  }
-
-  @variant board {
-    .board-viewport {
-      position: absolute;
-      inset: 0;
-      display: grid;
-      place-items: center;
-      height: auto;
-      overflow: hidden;
-    }
-    .board {
-      height: auto;
-      width: min(100vw, 100svh * 16 / 9);
-      margin: 0;
-    }
   }
 }
 

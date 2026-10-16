@@ -17,9 +17,9 @@ export function Hotspot({ hotspot, index }: HotspotProps) {
     >
       <Link
         to={hotspot.to}
-        className="group flex -translate-x-[22px] -translate-y-1/2 items-center gap-3 rounded-full bg-paper/85 py-1.5 pr-5 pl-1.5 whitespace-nowrap shadow-[0_6px_20px_-6px_rgb(60_45_30/0.35)] backdrop-blur-sm transition-all duration-300 ease-soft hover:bg-olive hover:text-paper hover:shadow-[0_10px_28px_-6px_rgb(60_45_30/0.45)] focus-visible:bg-olive focus-visible:text-paper"
+        className="group flex -translate-x-[22px] -translate-y-1/2 items-center gap-3 rounded-full bg-paper/85 py-1.5 pr-5 pl-1.5 short:-translate-x-[15px] short:gap-2 short:py-1 short:pr-3 short:pl-1 whitespace-nowrap shadow-[0_6px_20px_-6px_rgb(60_45_30/0.35)] backdrop-blur-sm transition-all duration-300 ease-soft hover:bg-olive hover:text-paper hover:shadow-[0_10px_28px_-6px_rgb(60_45_30/0.45)] focus-visible:bg-olive focus-visible:text-paper"
       >
-        <span className="relative grid size-8 place-items-center rounded-full bg-olive text-paper transition-colors duration-300 group-hover:bg-paper group-hover:text-olive">
+        <span className="relative grid size-8 place-items-center short:size-[22px] rounded-full bg-olive text-paper transition-colors duration-300 group-hover:bg-paper group-hover:text-olive">
           <span aria-hidden className="absolute inset-0 animate-pulse-ring rounded-full bg-olive group-hover:hidden" />
           <Plus
             aria-hidden
@@ -27,7 +27,7 @@ export function Hotspot({ hotspot, index }: HotspotProps) {
             className="relative size-4 transition-transform duration-500 ease-soft group-hover:rotate-90"
           />
         </span>
-        <span className="eyebrow pt-px">{hotspot.label}</span>
+        <span className="eyebrow pt-px short:text-[9px] short:tracking-[0.2em]">{hotspot.label}</span>
       </Link>
     </motion.div>
   )
